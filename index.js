@@ -38,7 +38,7 @@ app.post("/users", async (req, res) => {
 // Read Endpoint (GET)
 app.get("/users", async (req, res) => {
   const users = await User.find();
-  res.send(users);
+  res.json(users);
 });
 
 // Update Endpoint (PUT)
