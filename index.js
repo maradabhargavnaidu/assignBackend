@@ -42,9 +42,8 @@ app.post("/users", async (req, res) => {
 // Read Endpoint (GET)
 app.get("/users", async (req, res) => {
   try {
-    const users = await User.find()
-      .then((data) => res.send(data))
-      .catch((err) => console.log(err));
+    const users = await User.find();
+    return res.status(201).json(users);
   } catch (err) {
     console.log(err);
   }
