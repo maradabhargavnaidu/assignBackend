@@ -14,7 +14,7 @@ mongoose
     }
   )
   .then(() => console.log("Connection Successfull"))
-  .catch((err) => console.log("ERROR DB"));
+  .catch((err) => console.log(err));
 
 // Middleware to parse JSON
 app.use(express.json());
