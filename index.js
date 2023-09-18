@@ -7,7 +7,11 @@ require("dotenv").config();
 // Connect to MongoDB
 mongoose
   .connect(
-    "mongodb+srv://bhargavnaidu:fS32Bt4ftvEJ1WpT@database.jnqneb3.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://bhargavnaidu:fS32Bt4ftvEJ1WpT@database.jnqneb3.mongodb.net/?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
   )
   .then(() => console.log("Connection Successfull"))
   .catch((err) => console.log("ERROR DB"));
