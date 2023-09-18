@@ -5,7 +5,10 @@ const cors = require("cors");
 const PORT = process.env.PORT || 3001;
 require("dotenv").config();
 // Connect to MongoDB
-mongoose.connect(process.env.DATABASE_URL);
+mongoose
+  .connect(process.env.DATABASE_URL)
+  .then(() => console.log("Connection Successfull"))
+  .catch((err) => console.log("ERROR DB"));
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -33,9 +36,9 @@ app.post("/users", async (req, res) => {
   try {
     const newUser = new User({ name, email, profileImage });
     const user = await newUser.save();
-    res.send(user);
+    return res.send(user);
   } catch (err) {
-    console.log(err);
+    return res.send(err);
   }
 });
 
@@ -45,7 +48,7 @@ app.get("/users", async (req, res) => {
     const users = await User.find();
     return res.status(201).json(users);
   } catch (err) {
-    console.log(err);
+    return res.status(500).json(err);
   }
 });
 
@@ -59,9 +62,9 @@ app.post("/updateusers", async (req, res) => {
       email,
       profileImage,
     });
-    res.send(resp);
+    return res.send(resp);
   } catch (err) {
-    console.log(err);
+    return res.send(err);
   }
 });
 
@@ -71,9 +74,9 @@ app.post("/deleteuser", async (req, res) => {
   // console.log(req.body);
   try {
     const resp = await User.findByIdAndDelete(_id);
-    res.send(resp);
+    return res.send(resp);
   } catch (err) {
-    console.log(err);
+    return res.send(err);
   }
 });
 
@@ -81,9 +84,10 @@ app.get("/selectedone/:id", async (req, res) => {
   const { id } = req.params;
   console.log(req.params.id);
   try {
-    const resp = await User.findById(id).then(() => res.send(resp));
+    const resp = await User.findById(id);
+    return res.send(resp);
   } catch (err) {
-    console.log(err);
+    return res.send(err);
   }
 });
 
