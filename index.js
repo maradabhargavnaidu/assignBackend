@@ -30,15 +30,21 @@ app.get("/", (req, res) => res.send("Server running successfully"));
 app.post("/users", async (req, res) => {
   const { name, email, profileImage } = req.body;
   console.log(req.body);
-  const newUser = new User({ name, email, profileImage });
-  await newUser.save();
-  res.send(newUser);
+  try {
+    const newUser = new User({ name, email, profileImage });
+    await newUser.save().then(() => res.send(newUser));
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // Read Endpoint (GET)
 app.get("/users", async (req, res) => {
-  const users = await User.find();
-  res.json(users);
+  try {
+    const users = await User.find().then(() => res.send(users));
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // Update Endpoint (PUT)
@@ -59,17 +65,22 @@ app.post("/updateusers", async (req, res) => {
 // Delete Endpoint (DELETE)
 app.post("/deleteuser", async (req, res) => {
   const { _id } = req.body;
-  console.log(req.body);
-  await User.findByIdAndDelete(_id);
-  res.send("User deleted");
+  // console.log(req.body);
+  try {
+    await User.findByIdAndDelete(_id).then(() => res.send("User deleted"));
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.get("/selectedone/:id", async (req, res) => {
   const { id } = req.params;
   console.log(req.params.id);
-  const resp = await User.findById(id);
-  console.log(resp);
-  res.send(resp);
+  try {
+    const resp = await User.findById(id).then(() => res.send(resp));
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.listen(PORT, () => {
