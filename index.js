@@ -6,7 +6,9 @@ const PORT = process.env.PORT || 3001;
 require("dotenv").config();
 // Connect to MongoDB
 mongoose
-  .connect(process.env.DATABASE_URL)
+  .connect(
+    "mongodb+srv://bhargavnaidu:fS32Bt4ftvEJ1WpT@database.jnqneb3.mongodb.net/?retryWrites=true&w=majority"
+  )
   .then(() => console.log("Connection Successfull"))
   .catch((err) => console.log("ERROR DB"));
 
@@ -91,6 +93,12 @@ app.get("/selectedone/:id", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+process.on("unhandledRejection", (err) => {
+  server.close(() => {
+    process.exit(1);
+  });
 });
