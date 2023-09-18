@@ -32,7 +32,8 @@ app.post("/users", async (req, res) => {
   console.log(req.body);
   try {
     const newUser = new User({ name, email, profileImage });
-    await newUser.save().then(() => res.send(newUser));
+    const user = await newUser.save();
+    res.send(user);
   } catch (err) {
     console.log(err);
   }
@@ -41,7 +42,8 @@ app.post("/users", async (req, res) => {
 // Read Endpoint (GET)
 app.get("/users", async (req, res) => {
   try {
-    const users = await User.find().then(() => res.send(users));
+    const users = await User.find();
+    res.send(users);
   } catch (err) {
     console.log(err);
   }
@@ -50,13 +52,14 @@ app.get("/users", async (req, res) => {
 // Update Endpoint (PUT)
 app.post("/updateusers", async (req, res) => {
   const { _id, name, email, profileImage } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   try {
-    const res = await User.findByIdAndUpdate(_id.id, {
+    const resp = await User.findByIdAndUpdate(_id.id, {
       name,
       email,
       profileImage,
     });
+    res.send(resp);
   } catch (err) {
     console.log(err);
   }
@@ -67,7 +70,8 @@ app.post("/deleteuser", async (req, res) => {
   const { _id } = req.body;
   // console.log(req.body);
   try {
-    await User.findByIdAndDelete(_id).then(() => res.send("User deleted"));
+    const resp = await User.findByIdAndDelete(_id);
+    res.send(resp);
   } catch (err) {
     console.log(err);
   }
